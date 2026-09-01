@@ -1,0 +1,70 @@
+reconnaissance:
+
+  conditions:
+
+    unique_destination_ports: "> 20"
+
+    syn_to_ack_ratio: "> 0.70"
+
+  tactic: "Reconnaissance"
+
+  technique_id: "T1046"
+
+  technique_name: "Network Service Scanning"
+
+
+
+initial_access:
+
+  conditions:
+
+    failed_connection_ratio: "> 0.50"
+
+  tactic: "Initial Access"
+
+  technique_id: "T1110"
+
+  technique_name: "Brute Force"
+
+
+
+lateral_movement:
+
+  conditions:
+
+    destination_fanin: "> 5"
+
+  tactic: "Lateral Movement"
+
+  technique_id: "T1021"
+
+  technique_name: "Remote Services"
+
+
+
+command_and_control:
+
+  conditions:
+
+    flow_count: "> 100"
+
+  tactic: "Command and Control"
+
+  technique_id: "T1071"
+
+  technique_name: "Application Layer Protocol"
+
+
+
+exfiltration:
+
+  conditions:
+
+    outbound_bytes_ratio: "> 5"
+
+  tactic: "Exfiltration"
+
+  technique_id: "T1567"
+
+  technique_name: "Exfiltration Over Web Service"
+
