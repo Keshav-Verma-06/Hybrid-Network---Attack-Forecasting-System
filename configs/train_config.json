@@ -1,0 +1,55 @@
+{
+  "_comment": "NetSentinel training configuration. All training scripts load this file for hyperparameters and seeds.",
+  "seed": 42,
+  "gru": {
+    "hidden_dim": 128,
+    "num_layers": 2,
+    "dropout": 0.2,
+    "seq_len": 30,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "epochs": 30,
+    "patience": 8,
+    "loss_weights": {
+      "next_state": 0.40,
+      "future_risk": 0.40,
+      "attack_stage": 0.20
+    }
+  },
+  "hybrid": {
+    "ocsvm_nu": 0.05,
+    "ocsvm_kernel": "rbf",
+    "ocsvm_gamma": "scale",
+    "ocsvm_max_benign_samples": 20000,
+    "risk_weights": {
+      "p_forecast": 0.50,
+      "a_ocsvm": 0.30,
+      "r_error": 0.20
+    }
+  },
+  "baseline": {
+    "logistic_regression": {"max_iter": 1000, "class_weight": "balanced"},
+    "random_forest": {"n_estimators": 100, "class_weight": "balanced"},
+    "mlp": {"hidden_layer_sizes": [128, 64], "max_iter": 500, "early_stopping": true},
+    "ocsvm": {"kernel": "rbf", "gamma": "scale", "nu": 0.1},
+    "lof": {"n_neighbors": 20, "contamination": "auto"}
+  },
+  "data": {
+    "window_size": "30s",
+    "held_out_attacks": ["DoS slowloris", "DoS Slowhttptest", "Bot"],
+    "train_split_ratio": 0.8
+  },
+  "evaluation": {
+    "threshold_scan_min": 0.01,
+    "threshold_scan_max": 0.99,
+    "threshold_scan_step": 0.01,
+    "lead_time_look_back_windows": 10
+  },
+  "paths": {
+    "data_processed": "data/processed/windows",
+    "models_gru": "models/gru",
+    "models_baselines": "models/baselines",
+    "models_scalers": "models/scalers",
+    "outputs_metrics": "outputs/metrics"
+  }
+}

@@ -1,19 +1,33 @@
 import streamlit as st
 import sys
-import os
+from pathlib import Path
 
-# Ensure src modules can be imported
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Repo root: app/ -> root
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
-st.set_page_config(page_title="NetSentinel World Model", page_icon="ðŸ›¡ï¸", layout="wide")
+st.set_page_config(
+    page_title="NetSentinel World Model",
+    page_icon="🛡️",
+    layout="wide",
+)
 
-st.title("ðŸ›¡ï¸ NetSentinel: Offline Network-Attack Forecaster")
+st.title("🛡️ NetSentinel: Offline Network-Attack Forecaster")
 st.markdown("""
-Welcome to the **NetSentinel World Model** prototype. 
-This system uses a Temporal GRU + OCSVM Hybrid architecture to forecast network attacks **before** they happen and detect **Zero-Day** threats.
+Welcome to the **NetSentinel World Model** prototype.
 
-ðŸ‘ˆ **Please use the sidebar to navigate through the 5 modules.**
+This system uses a **Temporal GRU + OCSVM Hybrid** architecture to:
+- Forecast network attacks **before** they happen (horizons K=1, K=3, K=5)
+- Detect **Zero-Day** threats via latent-space anomaly detection
+- Map predicted attack stages to **MITRE ATT&CK** techniques
+
+👈 **Use the sidebar to navigate through the 5 modules.**
 """)
 
-if 'demo_loaded' not in st.session_state:
+col1, col2, col3 = st.columns(3)
+col1.info("📂 **Step 1** — Upload a CSV or PCAP file (or load the offline demo)")
+col2.info("🔮 **Step 3** — View multi-horizon attack forecasts")
+col3.info("📊 **Step 5** — Compare model performance with full metrics")
+
+if "demo_loaded" not in st.session_state:
     st.session_state.demo_loaded = False

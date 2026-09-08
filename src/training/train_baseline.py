@@ -5,9 +5,12 @@ import joblib
 import logging
 import pandas as pd
 import numpy as np
+from pathlib import Path
 from sklearn.preprocessing import StandardScaler
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+# Repo root
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
 
 from src.utils.metrics import evaluate_classification
 from src.models.logistic_baseline import get_supervised_models
@@ -19,21 +22,21 @@ logging.basicConfig(
 )
 
 
-def load_datasets(data_dir):
-    train        = pd.read_parquet(os.path.join(data_dir, 'train_windows_30s.parquet'))
-    test_known   = pd.read_parquet(os.path.join(data_dir, 'test_known_windows_30s.parquet'))
-    test_unknown = pd.read_parquet(os.path.join(data_dir, 'test_unknown_windows_30s.parquet'))
+def load_datasets(data_dir: Path):
+    train        = pd.read_parquet(data_dir / 'train_windows_30s.parquet')
+    test_known   = pd.read_parquet(data_dir / 'test_known_windows_30s.parquet')
+    test_unknown = pd.read_parquet(data_dir / 'test_unknown_windows_30s.parquet')
     return train, test_known, test_unknown
 
 
 def main():
-    DATA_DIR   = 'data/processed/windows'
-    MODEL_DIR  = 'models/baselines'
-    SCALER_DIR = 'models/scalers'
-    REPORT_DIR = 'outputs/metrics'
+    DATA_DIR   = ROOT / 'data' / 'processed' / 'windows'
+    MODEL_DIR  = ROOT / 'models' / 'baselines'
+    SCALER_DIR = ROOT / 'models' / 'scalers'
+    REPORT_DIR = ROOT / 'outputs' / 'metrics'
 
     for d in [MODEL_DIR, SCALER_DIR, REPORT_DIR]:
-        os.makedirs(d, exist_ok=True)
+        d.mkdir(parents=True, exist_ok=True)
 
     logging.info('Loading windowed datasets...')
     train, test_known, test_unknown = load_datasets(DATA_DIR)
@@ -66,7 +69,7 @@ def main():
     X_train_sc  = scaler.fit_transform(X_train)
     X_test_k_sc = scaler.transform(X_test_k)
     X_test_u_sc = scaler.transform(X_test_u)
-    joblib.dump(scaler, os.path.join(SCALER_DIR, 'baseline_scaler.pkl'))
+    joblib.dump(scaler, SCALER_DIR / 'baseline_scaler.pkl')
 
     X_benign = X_train_sc[y_train == 0]
     logging.info('Benign windows for anomaly training: %d', len(X_benign))
@@ -77,7 +80,7 @@ def main():
     for name, model in get_supervised_models().items():
         logging.info('Training supervised: %s ...', name)
         model.fit(X_train_sc, y_train)
-        joblib.dump(model, os.path.join(MODEL_DIR, name.replace(' ', '_').lower() + '.pkl'))
+        joblib.dump(model, MODEL_DIR / (name.replace(' ', '_').lower() + '.pkl'))
 
         t0       = time.time()
         preds_k  = model.predict(X_test_k_sc)
@@ -110,7 +113,7 @@ def main():
 
         logging.info('Training anomaly: %s on %d windows...', name, len(X_sub))
         model.fit(X_sub)
-        joblib.dump(model, os.path.join(MODEL_DIR, name.lower() + '.pkl'))
+        joblib.dump(model, MODEL_DIR / (name.lower() + '.pkl'))
 
         t0      = time.time()
         preds_k = map_anomaly_predictions(model.predict(X_test_k_sc))
@@ -150,7 +153,7 @@ def main():
         print(df.to_string(index=False))
     print(sep)
 
-    report = os.path.join(REPORT_DIR, 'baseline_metrics_table.csv')
+    report = REPORT_DIR / 'baseline_metrics_table.csv'
     df.to_csv(report, index=False)
     logging.info('Results saved to %s', report)
 

@@ -1,6 +1,0 @@
-Model,Known F1,Unknown F1,FPR,Inference latency (ms)
-Logistic Regression,0.0,0.338,0.0023,0.0
-Random Forest,0.0,0.0,0.0,0.0217
-MLP,0.3785,0.0339,0.014,0.002
-OCSVM,0.7091,0.2051,0.6495,0.0361
-LOF,0.702,0.127,0.6636,0.0208
