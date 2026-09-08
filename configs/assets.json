@@ -1,0 +1,22 @@
+{
+  "192.168.1.100": {
+    "zone": "DMZ",
+    "criticality": 3,
+    "role": "Web Server"
+  },
+  "10.0.0.50": {
+    "zone": "Internal",
+    "criticality": 4,
+    "role": "Database Server"
+  },
+  "10.0.0.200": {
+    "zone": "SCADA",
+    "criticality": 5,
+    "role": "ICS Controller"
+  },
+  "default": {
+    "zone": "Unknown",
+    "criticality": 1,
+    "role": "Endpoint"
+  }
+}

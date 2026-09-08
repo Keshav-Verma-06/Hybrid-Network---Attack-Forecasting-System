@@ -35,7 +35,7 @@ from src.enterprise.audit_logger import AuditLogger
 st.set_page_config(page_title="Step 3: Forecast", page_icon="🔮", layout="wide")
 st.title("🔮 Attack Forecast & Fused Risk")
 
-if "df" not in st.session_state or "current_idx" not in st.session_state:
+if "raw_df" not in st.session_state or "current_idx" not in st.session_state:
     st.warning("Please upload data in **Step 1** first.")
     st.stop()
 
@@ -76,7 +76,7 @@ def load_models():
 
 scaler, model, engine, mapper, asset_mgr, siem, logger, optimal_threshold = load_models()
 
-df = st.session_state["df"]
+df = st.session_state["raw_df"]
 idx = st.session_state["current_idx"]
 seq_len = 30
 
