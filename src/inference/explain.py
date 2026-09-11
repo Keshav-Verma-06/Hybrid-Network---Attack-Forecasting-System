@@ -14,8 +14,12 @@ Both functions use Captum IntegratedGradients.
 
 import torch
 import torch.nn as nn
-from captum.attr import IntegratedGradients
 import numpy as np
+
+try:
+    from captum.attr import IntegratedGradients
+except ImportError:  # Explainability is optional for core inference.
+    IntegratedGradients = None
 
 
 class GRURiskWrapper(nn.Module):
@@ -41,6 +45,9 @@ def explain_prediction(
 
     Returns list of {Feature, Contribution} dicts sorted by |attribution|.
     """
+    if IntegratedGradients is None:
+        raise ImportError("Explainability requires the Captum dependency.")
+
     wrapper = GRURiskWrapper(model).to(device)
     wrapper.eval()
 
@@ -74,6 +81,9 @@ def explain_temporal(
     attr_matrix : np.ndarray (seq_len, n_features) — raw per-step per-feature attributions
     attr_by_step: np.ndarray (seq_len,)             — |attribution| summed across features per step
     """
+    if IntegratedGradients is None:
+        raise ImportError("Explainability requires the Captum dependency.")
+
     wrapper = GRURiskWrapper(model).to(device)
     wrapper.eval()
 

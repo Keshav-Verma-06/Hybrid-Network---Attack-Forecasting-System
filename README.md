@@ -136,19 +136,18 @@ python src/training/train_hybrid.py
 
 ---
 
-## 🖥️ Running the Dashboard
+## 🖥️ Running the Web Application
+
+The primary interface is a standalone web application: FastAPI serves the
+existing Python inference pipeline and the Stitch-inspired frontend in `web/`.
+Streamlit pages remain in the repository for reference, but are not required.
 
 ```bash
 # From the project root
-.venv\Scripts\streamlit run app/streamlit_app.py
+.venv\Scripts\python -m uvicorn app.api:app --host 127.0.0.1 --port 8000
 ```
 
-Or with explicit port:
-```bash
-.venv\Scripts\streamlit run app/streamlit_app.py --server.port 8501
-```
-
-Then open **http://localhost:8501** in your browser.
+Then open **http://localhost:8000** in your browser.
 
 ### Demo walkthrough
 1. **Step 1 (Upload)** → Click **"🎯 Load Offline Fallback Demo"** — pre-loads the known test set and auto-advances to a window just before an attack.

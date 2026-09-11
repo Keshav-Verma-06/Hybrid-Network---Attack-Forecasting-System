@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NetSentinel | Security Operations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div>
+      <div class="brand"><div class="brand-mark">N</div><div><strong>NetSentinel</strong><small>SOC ENGINE V2.4</small></div></div>
+      <div class="nav-label">Navigation</div>
+      <nav id="nav">
+        <button class="nav-item active" data-view="overview"><span>▦</span>Overview</button>
+        <button class="nav-item" data-view="upload"><span>↥</span>Upload Data</button>
+        <button class="nav-item" data-view="state"><span>⌘</span>Network State</button>
+        <button class="nav-item" data-view="forecast"><span>◉</span>Attack Forecast</button>
+        <button class="nav-item" data-view="explain"><span>✦</span>Explainability</button>
+        <button class="nav-item" data-view="benchmarks"><span>⌁</span>Benchmarks</button>
+        <button class="nav-item" data-view="admin"><span>▣</span>Enterprise Admin</button>
+      </nav>
+    </div>
+    <div class="side-status"><div><span class="dot good"></span> API ONLINE</div><div><span class="dot good"></span> MODEL READY</div><div class="offline">OFFLINE MODE</div></div>
+  </aside>
+  <main class="shell">
+    <header class="topbar"><div><span class="muted">NetSentinel</span><span class="slash">/</span><b id="crumb">Forensic Workspace</b></div><div class="top-meta"><span>Dataset: <b id="dataset">No dataset</b></span><span>|</span><span>Window: <b id="window">----</b></span><span>|</span><span class="muted">OFFLINE</span><span class="health"><i></i> Healthy</span><button class="avatar">◎</button></div></header>
+    <div id="app" class="content"></div>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
